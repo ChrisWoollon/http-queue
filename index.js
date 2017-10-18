@@ -12,8 +12,8 @@ module.exports = class HttpRequester {
 			return this.makeRequest(url,callback,error);
 		});
 	}
+	
 	makeRequest(url,callback = null, error = null) {
-		// console.log("here");
 		https.get(url, (resp) => {
 			let data = '';
 			resp.on('data', (chunk) => {
