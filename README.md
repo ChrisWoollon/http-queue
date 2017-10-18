@@ -2,7 +2,7 @@
 Queue HTTPS requests to, for example, limit the number of API requests made in X amount of time
 
 # Usage
-`
+```
 let httpQueue = require('http-queue');
 httpQueue = new httpQueue(1000);
 
@@ -14,3 +14,4 @@ httpQueue.newRequest('https://google.co.uk', function(data) {
 httpQueue.newRequest('https://github.com', function(data) {
 	console.log(data);
 });
+```
