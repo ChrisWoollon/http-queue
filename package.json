@@ -1,0 +1,11 @@
+{
+  "name": "http-queue",
+  "version": "0.0.1",
+  "description": "Queue HTTPS requests to, for example, limit the number of API requests made in X amount of time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Woollon",
+  "license": "ISC"
+}
