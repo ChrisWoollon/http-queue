@@ -21,14 +21,14 @@ module.exports = class HttpRequester {
 			});
 			resp.on('end', () => {
 				if (callback)
-					callback(JSON.parse(data));
+					callback(data);
 				else 
-					console.log(JSON.parse(data));
+					console.log(data);
 				return data;
 			});
 		}).on("error", (err) => {
 			if (error)
-				error();
+				error(err);
 			else
 				console.log("Error: " + err.message);
 			return error;
