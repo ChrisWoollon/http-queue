@@ -4,7 +4,6 @@ module.exports = class HttpRequester {
 	
 	constructor(wait) {
 		this.wait = wait;
-		this.requests = [];
 	}
 
 	newRequest(url, callback = null, error = null) {
@@ -13,7 +12,7 @@ module.exports = class HttpRequester {
 		});
 	}
 	
-	makeRequest(url,callback = null, error = null) {
+	makeRequest(url, callback = null, error = null) {
 		https.get(url, (resp) => {
 			let data = '';
 			resp.on('data', (chunk) => {
