@@ -1,21 +1,37 @@
 const https = require('https');
 const http = require('http');
-
+const { URL } = require('url');
 module.exports = class HttpQueue {
 	
 	constructor(wait) {
 		this.wait = wait;
 	}
 
-	newRequest(url, callback = null, error = null) {
+	newRequest(options, callback = null, error = null) {
+		options = options || {};
 		delay(this.wait, () => {
-			let protocol = url.indexOf('https://') > -1 ? https : http;
-			return this.makeRequest(protocol,url,callback,error);
+			let protocol = http;
+			if (typeof options === 'string') {
+				protocol = options.indexOf('https://') > -1 ? https : http;
+			} else if (options.protocol) {
+				protocol = options.protocol === 'https:' ? https : http;
+			}
+			return this.makeRequest(protocol,options,callback,error);
 		});
 	}
 	
-	makeRequest(protocol, url, callback = null, error = null) {
-		protocol.get(url, (resp) => {
+	makeRequest(protocol, options, callback = null, error = null) {
+		let body = null;
+		if (
+			typeof options === 'object' &&
+			options.method !== 'GET' &&
+			options.method !== 'DELETE' &&
+			options.body
+		) {
+			body = options.body;
+			delete options.body;
+		}
+		let req = protocol.request(options, (resp) => {
 			let data = '';
 			resp.on('data', (chunk) => {
 				data += chunk;
@@ -34,6 +50,11 @@ module.exports = class HttpQueue {
 				console.log("Error: " + err.message);
 			return error;
 		});
+
+		if (body) {
+			req.write(body);
+		}
+		req.end();
 	}
 
 	getInterval() {
