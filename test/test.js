@@ -157,11 +157,21 @@ describe('http-queue', function() {
 		queue.newRequest(optionsJson, function(data) {
 			then = Date.now();
 			assert.isAbove(then,0);
+			assert.isOk(data);
+			data = JSON.parse(data);
+			assert(data.hasOwnProperty('id'));
+			assert(data.hasOwnProperty('title'));
+			assert.equal(data.title, postDataJson.title);
 		});
 		queue.newRequest(optionsUrlEncoded, function(data) {
 			now = Date.now();
 			assert.isAbove(now,0);
 			assert.isAtLeast(now,then+1000);
+			assert.isOk(data);
+			data = JSON.parse(data);
+			assert(data.hasOwnProperty('id'));
+			assert(data.hasOwnProperty('title'));
+			assert.equal(data.title, postDataUrlEncoded.title);
 			done();
 		});
 	});
