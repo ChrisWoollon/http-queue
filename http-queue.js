@@ -39,10 +39,10 @@ module.exports = class HttpQueue {
 	}
 
 	getBody(options) {
+		let noBodyMethods = ['GET', 'DELETE', 'OPTIONS', 'HEAD'];
 		if (
 			typeof options === 'object' &&
-			options.method !== 'GET' &&
-			options.method !== 'DELETE' &&
+			noBodyMethods.indexOf(options.method) === -1 &&
 			options.body
 		) {
 			return options.body;
