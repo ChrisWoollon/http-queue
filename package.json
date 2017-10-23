@@ -2,9 +2,9 @@
   "name": "http-queue",
   "version": "0.0.4",
   "description": "Queue HTTPS requests to, for example, limit the number of API requests made in X amount of time",
-  "main": "index.js",
+  "main": "http-queue.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Chris Woollon",
   "license": "ISC",
@@ -19,5 +19,10 @@
   "keywords": [
     "HTTP",
     "Queue"
-  ]
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "qunitjs": "^2.4.1"
+  }
 }
