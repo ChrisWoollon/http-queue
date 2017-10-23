@@ -1,6 +1,7 @@
 const https = require('https');
+const http = require('http');
 
-module.exports = class HttpRequester {
+module.exports = class HttpQueue {
 	
 	constructor(wait) {
 		this.wait = wait;
@@ -8,12 +9,13 @@ module.exports = class HttpRequester {
 
 	newRequest(url, callback = null, error = null) {
 		delay(this.wait, () => {
-			return this.makeRequest(url,callback,error);
+			let protocol = url.indexOf('https://') > -1 ? https : http;
+			return this.makeRequest(protocol,url,callback,error);
 		});
 	}
 	
-	makeRequest(url, callback = null, error = null) {
-		https.get(url, (resp) => {
+	makeRequest(protocol, url, callback = null, error = null) {
+		protocol.get(url, (resp) => {
 			let data = '';
 			resp.on('data', (chunk) => {
 				data += chunk;
@@ -32,6 +34,14 @@ module.exports = class HttpRequester {
 				console.log("Error: " + err.message);
 			return error;
 		});
+	}
+
+	getInterval() {
+		return this.wait;
+	}
+
+	setInterval(x) {
+		this.wait = x;
 	}
 
 };
