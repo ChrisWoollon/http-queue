@@ -9,7 +9,6 @@ module.exports = class HttpQueue {
 
 	parseUrl(options) {
 		let urlObject = new URL(options.url);
-		delete options.url;
 		options.protocol = urlObject.protocol || 'http:';
 		options.host = urlObject.host || 'localhost';
 		options.hostname = urlObject.hostname || 'localhost';
@@ -54,9 +53,6 @@ module.exports = class HttpQueue {
 	
 	makeRequest(protocol, options, callback = null, error = null) {
 		let body = this.getBody(options);
-		if (body) {
-			delete options.body;
-		}
 		let req = protocol.request(options, (resp) => {
 			let data = '';
 			resp.on('data', (chunk) => {
