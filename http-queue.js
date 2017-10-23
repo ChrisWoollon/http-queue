@@ -9,11 +9,20 @@ module.exports = class HttpQueue {
 
 	newRequest(options, callback = null, error = null) {
 		options = options || {};
+		if (typeof options === 'object' && options.url) {
+			let urlObject = new URL(options.url);
+			delete options.url;
+			options.protocol = urlObject.protocol || 'http:';
+			options.host = urlObject.host || 'localhost';
+			options.hostname = urlObject.hostname || 'localhost';
+			options.path = (urlObject.pathname + urlObject.search) || '/';
+			options.port = urlObject.port || (options.protocol === 'https:' ? 443 : 80);
+		}
 		delay(this.wait, () => {
 			let protocol = http;
 			if (typeof options === 'string') {
 				protocol = options.indexOf('https://') > -1 ? https : http;
-			} else if (options.protocol) {
+			} else if (typeof options === 'object' && options.protocol) {
 				protocol = options.protocol === 'https:' ? https : http;
 			}
 			return this.makeRequest(protocol,options,callback,error);

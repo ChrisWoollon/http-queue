@@ -49,6 +49,17 @@ describe('http-queue', function() {
 			done();
 		})
 	})
+	it('test GET request return data from placeholder API over https with options object', function(done) {
+		this.timeout(5000);
+		queue.newRequest({
+			url: 'https://jsonplaceholder.typicode.com/posts/1'
+		}, function(data) {
+			assert.isOk(data);
+			data = JSON.parse(data);
+			assert(data.hasOwnProperty('id'));
+			done();
+		});
+	});
 	it('test multiple GET requests', function(done) {
 		this.timeout(5000);
 		let now = 0;
