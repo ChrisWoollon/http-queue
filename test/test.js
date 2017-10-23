@@ -83,9 +83,7 @@ describe('http-queue', function() {
 			userId: 5
 		};
 		let options = {
-			protocol: 'https:',
-			host: 'jsonplaceholder.typicode.com',
-			path: '/posts',
+			url: 'https://jsonplaceholder.typicode.com/posts',
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -155,9 +153,7 @@ describe('http-queue', function() {
 			userId: 5
 		};
 		let optionsUrlEncoded = {
-			protocol: 'https:',
-			host: 'jsonplaceholder.typicode.com',
-			path: '/posts',
+			url: 'https://jsonplaceholder.typicode.com/posts',
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',

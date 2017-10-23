@@ -7,37 +7,54 @@ module.exports = class HttpQueue {
 		this.wait = wait;
 	}
 
+	parseUrl(options) {
+		let urlObject = new URL(options.url);
+		delete options.url;
+		options.protocol = urlObject.protocol || 'http:';
+		options.host = urlObject.host || 'localhost';
+		options.hostname = urlObject.hostname || 'localhost';
+		options.path = (urlObject.pathname + urlObject.search) || '/';
+		options.port = urlObject.port || (options.protocol === 'https:' ? 443 : 80);
+		return options;
+	}
+
+	getProtocolObject(options) {
+		if (typeof options === 'string') {
+			return options.indexOf('https://') > -1 ? https : http;
+		} else if (typeof options === 'object' && options.protocol) {
+			return options.protocol === 'https:' ? https : http;
+		} else {
+			return https;
+		}
+	}
+
 	newRequest(options, callback = null, error = null) {
 		options = options || {};
 		if (typeof options === 'object' && options.url) {
-			let urlObject = new URL(options.url);
-			delete options.url;
-			options.protocol = urlObject.protocol || 'http:';
-			options.host = urlObject.host || 'localhost';
-			options.hostname = urlObject.hostname || 'localhost';
-			options.path = (urlObject.pathname + urlObject.search) || '/';
-			options.port = urlObject.port || (options.protocol === 'https:' ? 443 : 80);
+			this.parseUrl(options);
 		}
 		delay(this.wait, () => {
-			let protocol = http;
-			if (typeof options === 'string') {
-				protocol = options.indexOf('https://') > -1 ? https : http;
-			} else if (typeof options === 'object' && options.protocol) {
-				protocol = options.protocol === 'https:' ? https : http;
-			}
+			let protocol = this.getProtocolObject(options);
 			return this.makeRequest(protocol,options,callback,error);
 		});
 	}
-	
-	makeRequest(protocol, options, callback = null, error = null) {
-		let body = null;
+
+	getBody(options) {
 		if (
 			typeof options === 'object' &&
 			options.method !== 'GET' &&
 			options.method !== 'DELETE' &&
 			options.body
 		) {
-			body = options.body;
+			return options.body;
+		} else {
+			return null;
+		}
+	}
+	
+	makeRequest(protocol, options, callback = null, error = null) {
+		let body = this.getBody(options);
+		if (body) {
 			delete options.body;
 		}
 		let req = protocol.request(options, (resp) => {
