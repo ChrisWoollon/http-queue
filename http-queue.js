@@ -19,7 +19,7 @@ module.exports = class HttpQueue {
 			let data = '';
 			resp.on('data', (chunk) => {
 				data += chunk;
-			});
+			}); 
 			resp.on('end', () => {
 				if (callback)
 					callback(data);
