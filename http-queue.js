@@ -1,21 +1,59 @@
 const https = require('https');
 const http = require('http');
-
+const { URL } = require('url');
 module.exports = class HttpQueue {
 	
 	constructor(wait) {
 		this.wait = wait;
 	}
 
-	newRequest(url, callback = null, error = null) {
+	parseUrl(options) {
+		let urlObject = new URL(options.url);
+		options.protocol = urlObject.protocol || 'http:';
+		options.host = urlObject.host || 'localhost';
+		options.hostname = urlObject.hostname || 'localhost';
+		options.path = (urlObject.pathname + urlObject.search) || '/';
+		options.port = urlObject.port || (options.protocol === 'https:' ? 443 : 80);
+		return options;
+	}
+
+	getProtocolObject(options) {
+		if (typeof options === 'string') {
+			return options.indexOf('https://') > -1 ? https : http;
+		} else if (typeof options === 'object' && options.protocol) {
+			return options.protocol === 'https:' ? https : http;
+		} else {
+			return https;
+		}
+	}
+
+	newRequest(options, callback = null, error = null) {
+		options = options || {};
+		if (typeof options === 'object' && options.url) {
+			this.parseUrl(options);
+		}
 		delay(this.wait, () => {
-			let protocol = url.indexOf('https://') > -1 ? https : http;
-			return this.makeRequest(protocol,url,callback,error);
+			let protocol = this.getProtocolObject(options);
+			return this.makeRequest(protocol,options,callback,error);
 		});
 	}
+
+	getBody(options) {
+		let noBodyMethods = ['GET', 'DELETE', 'OPTIONS', 'HEAD'];
+		if (
+			typeof options === 'object' &&
+			noBodyMethods.indexOf(options.method) === -1 &&
+			options.body
+		) {
+			return options.body;
+		} else {
+			return null;
+		}
+	}
 	
-	makeRequest(protocol, url, callback = null, error = null) {
-		protocol.get(url, (resp) => {
+	makeRequest(protocol, options, callback = null, error = null) {
+		let body = this.getBody(options);
+		let req = protocol.request(options, (resp) => {
 			let data = '';
 			resp.on('data', (chunk) => {
 				data += chunk;
@@ -34,6 +72,11 @@ module.exports = class HttpQueue {
 				console.log("Error: " + err.message);
 			return error;
 		});
+
+		if (body) {
+			req.write(body);
+		}
+		req.end();
 	}
 
 	getInterval() {
