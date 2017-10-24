@@ -2,7 +2,7 @@ const https = require('https');
 const http = require('http');
 const { URL } = require('url');
 module.exports = class HttpQueue {
-	
+
 	constructor(wait) {
 		this.wait = wait;
 	}
@@ -18,21 +18,22 @@ module.exports = class HttpQueue {
 	}
 
 	getProtocolObject(options) {
-		if (typeof options === 'string') {
-			return options.indexOf('https://') > -1 ? https : http;
-		} else if (typeof options === 'object' && options.protocol) {
+		if (typeof options === 'object' && options.protocol) {
 			return options.protocol === 'https:' ? https : http;
 		} else {
 			return https;
 		}
 	}
 
-	newRequest(options, callback = null, error = null) {
-		options = options || {};
+	newRequest(options = {}, callback = null, error = null, wait = null) {
+		if (typeof options === 'string') {
+			options = { url: options };
+		}
 		if (typeof options === 'object' && options.url) {
 			this.parseUrl(options);
 		}
-		delay(this.wait, () => {
+		wait = wait || this.wait;
+		delay(wait, () => {
 			let protocol = this.getProtocolObject(options);
 			return this.makeRequest(protocol,options,callback,error);
 		});
