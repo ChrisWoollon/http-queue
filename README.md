@@ -1,3 +1,7 @@
+https://github.com/ChrisWoollon/http-queue/
+https://www.npmjs.com/package/http-queue
+http://chriswoollon.co.uk/
+
 # http-queue
 Queue HTTPS requests to, for example, limit the number of API requests made in X amount of time.
 
