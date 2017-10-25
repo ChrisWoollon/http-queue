@@ -39,21 +39,24 @@ queue.newRequest(options, function(data) {
 
 | Parameter | Example |
 | ------------- | ------------------------------------- |
-| url | 'http://twitter.com/' |
+| url | 'http://example.com/' |
 | method | 'GET' |
 | headers | { Content-Type': 'application/json' } |
 | body | `JSON data` |
 
 You can also define the URL in its constituent parts, e.g.
-* options.protocol
-* options.host
-* options.hostname
-* options.path
-* options.port
+| Parameter | Example |
+| ------------- | ------------------------------------- |
+| options.protocol | 'http' |
+| options.hostname | 'example.com' |
+| options.host | 'example.com:8888' |
+| options.path | '/get/the/path/' |
+| options.port | 8888 |
 
-Content-Type supported:
-* application/json 
-* application/x-www-form-urlencoded
+| Content-Type supported: |
+| ------------------------------------- |
+| application/json |
+| application/x-www-form-urlencoded |
 
 You can also pass functions as variables for multi-use, and handle errors in their own function
 ```javascript
