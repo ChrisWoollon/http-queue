@@ -41,30 +41,6 @@ queue.newRequest(options, function(data) {
 });
 ```
 
-### Parameters:
-
-| Parameter | Example |
-| ------------- | ------------------------------------- |
-| url | 'http://example.com/' |
-| method | 'GET' |
-| headers | { Content-Type': 'application/json' } |
-| body | `JSON data` |
-
-You can also define the URL in its constituent parts, e.g.
-
-| Parameter | Example |
-| ------------- | ------------------------------------- |
-| options.protocol | 'http' |
-| options.hostname | 'example.com' |
-| options.host | 'example.com:8888' |
-| options.path | '/get/the/path/' |
-| options.port | 8888 |
-
-| Content-Type supported: |
-| ------------------------------------- |
-| application/json |
-| application/x-www-form-urlencoded |
-
 You can also pass functions as variables for multi-use, and handle errors in their own function
 ```javascript
 let onResponse = function(data) {
@@ -76,6 +52,33 @@ let error = function(err) {
 }
 httpQueue.newRequest('https://twitter.com', onResponse, error);
 ```
+
+### Parameters:
+
+| Parameter | Example |
+| ------------- | ------------------------------------- |
+| url | 'http://example.com/' |
+| method | 'GET' |
+| headers | { Content-Type': 'application/json' } |
+| body | `JSON data` |
+
+
+| Content-Type supported: |
+| ------------------------------------- |
+| application/json |
+| application/x-www-form-urlencoded |
+
+You can also define the URL in its constituent parts, e.g.
+
+| Parameter | Example |
+| ------------- | ------------------------------------- |
+| options.protocol | 'http' |
+| options.hostname | 'example.com' |
+| options.host | 'example.com:8888' |
+| options.path | '/get/the/path/' |
+| options.port | 8888 |
+
+
 
 # Contribute
 Have a feature request, spotted an issue? Get in touch or make a pull request: 
