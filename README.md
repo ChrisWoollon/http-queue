@@ -45,15 +45,15 @@ queue.newRequest(options, function(data) {
 | body | `JSON data` |
 
 You can also define the URL in its constituent parts, e.g.
-⋅⋅* options.protocol
-⋅⋅* options.host
-⋅⋅* options.hostname
-⋅⋅* options.path
-⋅⋅* options.port
+* options.protocol
+* options.host
+* options.hostname
+* options.path
+* options.port
 
 Content-Type supported:
-⋅⋅* application/json 
-⋅⋅* application/x-www-form-urlencoded
+* application/json 
+* application/x-www-form-urlencoded
 
 You can also pass functions as variables for multi-use, and handle errors in their own function
 ```javascript
