@@ -5,8 +5,6 @@ I found myself copy+pasting this code into lots of projects, so decided I'd just
 
 # Usage
 
-Currently, only GET requests over https are supported
-
 ```
 npm install http-queue
 ```
@@ -25,6 +23,41 @@ httpQueue.newRequest('https://github.com', function(data) {
 	console.log(data);
 });
 ```
+
+Alternatively, `newRequest` takes an object as its first parameter;
+
+```javascript
+var options = {
+	url: https://jsonplaceholder.typicode.com/posts/1
+}
+queue.newRequest(options, function(data) {
+	console.log(data);
+});
+```
+
+### Parameters:
+
+| Parameter | Example |
+| ------------- | ------------------------------------- |
+| url | 'http://example.com/' |
+| method | 'GET' |
+| headers | { Content-Type': 'application/json' } |
+| body | `JSON data` |
+
+You can also define the URL in its constituent parts, e.g.
+
+| Parameter | Example |
+| ------------- | ------------------------------------- |
+| options.protocol | 'http' |
+| options.hostname | 'example.com' |
+| options.host | 'example.com:8888' |
+| options.path | '/get/the/path/' |
+| options.port | 8888 |
+
+| Content-Type supported: |
+| ------------------------------------- |
+| application/json |
+| application/x-www-form-urlencoded |
 
 You can also pass functions as variables for multi-use, and handle errors in their own function
 ```javascript
