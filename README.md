@@ -45,6 +45,7 @@ queue.newRequest(options, function(data) {
 | body | `JSON data` |
 
 You can also define the URL in its constituent parts, e.g.
+
 | Parameter | Example |
 | ------------- | ------------------------------------- |
 | options.protocol | 'http' |
