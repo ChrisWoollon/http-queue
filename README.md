@@ -83,6 +83,3 @@ You can also define the URL in its constituent parts, e.g.
 # Contribute
 Have a feature request, spotted an issue? Get in touch or make a pull request: 
 https://github.com/ChrisWoollon/http-queue
-
-# Disclaimer
-This is not a mature module. It's a simple module, but it's brand new, and there are no tests.

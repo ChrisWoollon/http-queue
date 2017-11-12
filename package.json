@@ -1,6 +1,6 @@
 {
   "name": "http-queue",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Queue HTTPS requests to, for example, limit the number of API requests made in X amount of time",
   "main": "http-queue.js",
   "scripts": {
